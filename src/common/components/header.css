@@ -1,0 +1,258 @@
+/* Header Styles */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  padding: 2rem 0;
+  height: 80px;
+}
+
+.header-scrolled {
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 100%;
+  position: relative;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  flex: 0 0 auto;
+  margin-left: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex: 0 0 auto;
+  margin-right: 0;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.header-scrolled .nav-link {
+  color: #333;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+}
+
+.header-center {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.header-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.header-scrolled .header-item {
+  color: #333;
+}
+
+.header-item:hover {
+  opacity: 0.8;
+}
+
+.header-icon {
+  font-size: 1.2rem;
+}
+
+.header-svg-icon {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+}
+
+.header-scrolled .header-svg-icon {
+  filter: brightness(0) invert(0);
+}
+
+.header-logo {
+  font-size: 1.8rem;
+  font-weight: 300;
+  letter-spacing: 3px;
+  color: white;
+  margin: 0;
+  transition: color 0.3s ease;
+  text-transform: uppercase;
+}
+
+.header-scrolled .header-logo {
+  color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 1rem;
+  }
+  
+  .header-left {
+    gap: 1.5rem;
+    margin-left: 0;
+  }
+  
+  .header-right {
+    gap: 1rem;
+    margin-right: 0;
+  }
+  
+  .header-nav {
+    display: none;
+  }
+  
+  .header-center {
+    margin-top: 0;
+  }
+  
+  .header-item span:not(.header-svg-icon) {
+    display: none;
+  }
+  
+  .header-logo {
+    font-size: 1.2rem;
+  }
+  
+  .header-svg-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Mobile Menu Styles */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: 80px;
+}
+
+.mobile-menu {
+  background: white;
+  width: 300px;
+  height: 100vh;
+  padding: 2rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  animation: slideInLeft 0.3s ease;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.mobile-menu-title {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #333;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.mobile-menu-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.mobile-menu-close:hover {
+  color: #333;
+}
+
+.mobile-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-nav-link {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 400;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: color 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.mobile-nav-link:hover {
+  color: #666;
+}
+
+.mobile-nav-link:last-child {
+  border-bottom: none;
+}

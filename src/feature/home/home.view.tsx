@@ -92,6 +92,80 @@ export const HomeView: React.FC = () => {
         </div>
       </section>
 
+
+
+          {/* Wholesale Platform Section */}
+          <section className="wholesale-platform-section">
+        <div className="wholesale-platform-container">
+          <div className="wholesale-video-section">
+            <div className="video-container">
+              <div className="video-placeholder">
+                <div className="video-overlay">
+                  <div className="video-controls">
+                    <button className="video-control-btn">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </button>
+                    <button className="video-control-btn">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div className="video-thumbnail">
+                  <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Wholesale Platform" />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="wholesale-content-section">
+            <div className="wholesale-content">
+              <h2 className="wholesale-title">THE GAG WHOLESALE PLATFORM</h2>
+              <p className="wholesale-description">
+                A comprehensive wholesale solution for shopkeepers, both online and offline. 
+                Access our inventory management system and pre-order upcoming collections with 
+                exclusive wholesale pricing and dedicated support for your business growth.
+              </p>
+              <div className="wholesale-actions">
+                <button 
+                  className="wholesale-btn primary"
+                  onClick={() => navigate('/wholesale')}
+                >
+                  Explore Inventory
+                </button>
+                <button 
+                  className="wholesale-btn secondary"
+                  onClick={() => navigate('/pre-order')}
+                >
+                  Pre-Order Now
+                </button>
+              </div>
+              <div className="wholesale-features">
+                <div className="feature-item">
+                  <span className="feature-icon">📦</span>
+                  <span className="feature-text">Bulk Ordering</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-icon">💰</span>
+                  <span className="feature-text">Wholesale Pricing</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-icon">🚚</span>
+                  <span className="feature-text">Fast Delivery</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-icon">📱</span>
+                  <span className="feature-text">Online Platform</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Product Showcase Section */}
       <section className="showcase-section">
         <div className="showcase-item">
@@ -108,6 +182,8 @@ export const HomeView: React.FC = () => {
           </div>
         </div>
       </section>
+
+  
 
       {/* Newsletter Section */}
       <section className="newsletter-section">

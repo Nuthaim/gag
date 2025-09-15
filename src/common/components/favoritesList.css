@@ -1,0 +1,319 @@
+/* Favorites List Styles */
+.favorites-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-top: 80px;
+  padding-right: 20px;
+}
+
+.favorites-list {
+  background: white;
+  width: 400px;
+  max-height: 600px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideInRight 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.favorites-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  background: #f8f9fa;
+}
+
+.favorites-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.favorites-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favorites-close:hover {
+  background: #e9ecef;
+  color: #333;
+}
+
+.favorites-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.favorites-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #666;
+}
+
+.favorites-empty p {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+}
+
+.favorites-empty-subtitle {
+  font-size: 14px !important;
+  color: #999 !important;
+}
+
+.favorites-items {
+  padding: 10px 0;
+}
+
+.favorite-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: relative;
+}
+
+.favorite-item:hover {
+  background-color: #f8f9fa;
+}
+
+.favorite-item:last-child {
+  border-bottom: none;
+}
+
+.favorite-item-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.favorite-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.favorite-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.favorite-item-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.favorite-item-pricing {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.favorite-item-price {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e74c3c;
+}
+
+.favorite-item-original-price {
+  font-size: 12px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.favorite-item-colors {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.favorite-color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+}
+
+.favorite-more-colors {
+  font-size: 10px;
+  color: #999;
+  margin-left: 4px;
+}
+
+.favorite-remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #f8f9fa;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  color: #666;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.favorite-item:hover .favorite-remove-btn {
+  opacity: 1;
+}
+
+.favorite-remove-btn:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+.favorites-footer {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  background: #f8f9fa;
+}
+
+.favorites-view-all-btn {
+  width: 100%;
+  padding: 12px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.favorites-view-all-btn:hover {
+  background: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .favorites-overlay {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .favorites-list {
+    width: 100%;
+    max-width: 400px;
+    max-height: 80vh;
+  }
+
+  .favorite-item {
+    padding: 12px 15px;
+  }
+
+  .favorite-item-image {
+    width: 50px;
+    height: 50px;
+    margin-right: 12px;
+  }
+
+  .favorite-item-name {
+    font-size: 13px;
+  }
+
+  .favorite-item-price {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .favorites-overlay {
+    padding-top: 60px;
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+  .favorites-list {
+    max-height: 85vh;
+  }
+
+  .favorites-header {
+    padding: 15px;
+  }
+
+  .favorites-title {
+    font-size: 18px;
+  }
+
+  .favorite-item {
+    padding: 10px 15px;
+  }
+
+  .favorite-item-image {
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+  }
+
+  .favorite-item-name {
+    font-size: 12px;
+  }
+
+  .favorite-item-price {
+    font-size: 12px;
+  }
+
+  .favorites-footer {
+    padding: 15px;
+  }
+
+  .favorites-view-all-btn {
+    padding: 10px;
+    font-size: 13px;
+  }
+}

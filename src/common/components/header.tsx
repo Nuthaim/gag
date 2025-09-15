@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './header.css';
 import hamburg from '../../assets/hamburg.svg';
 import search from '../../assets/Search.svg';
 import favorite from '../../assets/Favorite.svg';
 import user from '../../assets/User.svg';
+import { FavoritesList } from './favoritesList';
+import { useFavorites } from '../../context/FavoritesContext';
 
 export const Header: React.FC = () => {
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
+  const { favorites } = useFavorites();
+
+  // Check if current page should have always visible header
+  const isHomePage = location.pathname === '/' || location.pathname === '/home';
+  const shouldShowHeader = isHomePage ? (isScrolled || isHovered) : true;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +38,15 @@ export const Header: React.FC = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const headerClass = `header ${isScrolled || isHovered ? 'header-scrolled' : ''}`;
+  const toggleFavorites = () => {
+    setIsFavoritesOpen(!isFavoritesOpen);
+  };
+
+  const closeFavorites = () => {
+    setIsFavoritesOpen(false);
+  };
+
+  const headerClass = `header ${shouldShowHeader ? 'header-scrolled' : ''}`;
 
   return (
     <header 
@@ -70,8 +88,14 @@ export const Header: React.FC = () => {
           <div className="header-item">
             <span>Call Us</span>
           </div>
-          <div className="header-item">
+          {/* <div className="header-item">
+            <a href="/wholesale" className="nav-link">Wholesale</a>
+          </div> */}
+          <div className="header-item favorite-item" onClick={toggleFavorites}>
             <img src={favorite} alt="Favorite" className="header-svg-icon" />
+            {favorites.length > 0 && (
+              <span className="favorite-count">{favorites.length}</span>
+            )}
           </div>
           <div className="header-item">
             <img src={user} alt="User" className="header-svg-icon" />
@@ -91,8 +115,8 @@ export const Header: React.FC = () => {
             </div>
             <nav className="mobile-menu-nav">
               <a href="#" className="mobile-nav-link" onClick={closeMobileMenu}>New Arrivals</a>
-              <a href="#" className="mobile-nav-link" onClick={closeMobileMenu}>Women</a>
               <a href="/men" className="mobile-nav-link" onClick={closeMobileMenu}>Men</a>
+              <a href="/wholesale" className="mobile-nav-link" onClick={closeMobileMenu}>Wholsale Inventory</a>
               <a href="#" className="mobile-nav-link" onClick={closeMobileMenu}>Art of Living</a>
               <a href="#" className="mobile-nav-link" onClick={closeMobileMenu}>World of GAG</a>
             </nav>

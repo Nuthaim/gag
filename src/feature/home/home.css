@@ -6,6 +6,53 @@
   padding: 0;
 }
 
+/* Pre-Order Banner */
+.pre-order-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem 0;
+  text-align: center;
+  color: white;
+}
+
+.pre-order-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.pre-order-title {
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.pre-order-subtitle {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.pre-order-btn {
+  background: white;
+  color: #667eea;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.pre-order-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: #f8f9fa;
+}
+
 /* Container */
 .container {
   max-width: 1200px;
@@ -78,8 +125,10 @@
 }
 
 .hero-link {
+  background: none;
+  border: 2px solid white;
   color: white;
-  text-decoration: underline;
+  text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 1px;
@@ -87,11 +136,14 @@
   cursor: pointer;
   transition: all 0.3s ease;
   display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 4px;
 }
 
 .hero-link:hover {
-  opacity: 0.8;
-  text-decoration: underline;
+  background: white;
+  color: #333;
+  transform: translateY(-2px);
 }
 
 /* Navigation Section */
@@ -373,6 +425,19 @@
     padding: 0 1rem;
   }
   
+  .pre-order-title {
+    font-size: 1.5rem;
+  }
+  
+  .pre-order-subtitle {
+    font-size: 1rem;
+  }
+  
+  .pre-order-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+  
   .hero-title {
     font-size: 2.5rem;
   }
@@ -414,6 +479,19 @@
 }
 
 @media (max-width: 480px) {
+  .pre-order-title {
+    font-size: 1.3rem;
+  }
+  
+  .pre-order-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .pre-order-btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
   .hero-title {
     font-size: 2rem;
   }

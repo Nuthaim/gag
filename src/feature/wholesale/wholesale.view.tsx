@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../common/components/header';
 import { Footer } from '../../common/components/footer';
-import menProducts from '../../data/menProducts.json';
-import { useFavorites } from '../../context/FavoritesContext';
-import './men.css';
+import wholesaleInventory from '../../data/wholesaleInventory.json';
+import './wholesale.css';
 
-interface Product {
+interface WholesaleProduct {
   id: number;
   name: string;
   price: number;
@@ -18,14 +17,17 @@ interface Product {
   description: string;
   isNew: boolean;
   isBestSeller: boolean;
+  minimumSets: number;
+  wholesaleDiscount: number;
+  stockAvailable: number;
+  inventoryStatus: string;
 }
 
-export const MenView: React.FC = () => {
+export const WholesaleView: React.FC = () => {
   const navigate = useNavigate();
-  const { isFavorite, toggleFavorite } = useFavorites();
-  const [products, setProducts] = useState<Product[]>(menProducts.products);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(menProducts.products);
-  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<WholesaleProduct[]>(wholesaleInventory.products);
+  const [filteredProducts, setFilteredProducts] = useState<WholesaleProduct[]>(wholesaleInventory.products);
+  const [displayedProducts, setDisplayedProducts] = useState<WholesaleProduct[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('featured');
@@ -38,15 +40,15 @@ export const MenView: React.FC = () => {
     { value: 'tshirts', label: 'T-Shirts' },
     { value: 'pants', label: 'Pants' },
     { value: 'jeans', label: 'Jeans' },
-    { value: 'shoes', label: 'Shoes' }
+    { value: 'hoodies', label: 'Hoodies' }
   ];
 
   const sortOptions = [
     { value: 'featured', label: 'Featured' },
     { value: 'price-low', label: 'Price: Low to High' },
     { value: 'price-high', label: 'Price: High to Low' },
-    { value: 'newest', label: 'Newest First' },
-    { value: 'bestseller', label: 'Best Sellers' }
+    { value: 'stock-high', label: 'Stock: High to Low' },
+    { value: 'discount', label: 'Best Discount' }
   ];
 
   useEffect(() => {
@@ -73,11 +75,11 @@ export const MenView: React.FC = () => {
       case 'price-high':
         filtered.sort((a, b) => b.price - a.price);
         break;
-      case 'newest':
-        filtered.sort((a, b) => b.id - a.id);
+      case 'stock-high':
+        filtered.sort((a, b) => b.stockAvailable - a.stockAvailable);
         break;
-      case 'bestseller':
-        filtered.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
+      case 'discount':
+        filtered.sort((a, b) => b.wholesaleDiscount - a.wholesaleDiscount);
         break;
       default:
         // Featured - keep original order
@@ -111,23 +113,31 @@ export const MenView: React.FC = () => {
   const hasMoreProducts = displayedProducts.length < filteredProducts.length;
 
   const handleProductClick = (productId: number) => {
-    navigate(`/men/product/${productId}`);
+    navigate(`/wholesale/product/${productId}`);
   };
 
-  const handleWishlistClick = (e: React.MouseEvent, product: Product) => {
-    e.stopPropagation();
-    toggleFavorite(product);
+  const getStockStatusClass = (status: string) => {
+    switch (status) {
+      case 'In Stock':
+        return 'stock-in';
+      case 'Low Stock':
+        return 'stock-low';
+      case 'Out of Stock':
+        return 'stock-out';
+      default:
+        return 'stock-in';
+    }
   };
 
   return (
-    <div className="men-view">
+    <div className="wholesale-view">
       <Header />
       
       {/* Page Header */}
       <section className="page-header">
         <div className="container">
-          <h1 className="page-title">Men's Collection</h1>
-          <p className="page-subtitle">Discover our latest men's fashion</p>
+          <h1 className="page-title">Wholesale Inventory</h1>
+          <p className="page-subtitle">Bulk orders for shopkeepers - Minimum 3 sets per color</p>
         </div>
       </section>
 
@@ -139,7 +149,7 @@ export const MenView: React.FC = () => {
             <div className="search-container">
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search wholesale products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
@@ -186,7 +196,7 @@ export const MenView: React.FC = () => {
         <div className="container">
           <div className="products-header">
             <p className="products-count">
-              {filteredProducts.length} products found
+              {filteredProducts.length} wholesale products available
             </p>
           </div>
           
@@ -202,22 +212,27 @@ export const MenView: React.FC = () => {
                   <div className="product-badges">
                     {product.isNew && <span className="badge new">New</span>}
                     {product.isBestSeller && <span className="badge bestseller">Best Seller</span>}
+                    <span className="badge discount">{product.wholesaleDiscount}% OFF</span>
                   </div>
-                  <button 
-                    className={`wishlist-btn ${isFavorite(product.id) ? 'favorited' : ''}`}
-                    onClick={(e) => handleWishlistClick(e, product)}
-                  >
-                    {isFavorite(product.id) ? '❤️' : '♡'}
-                  </button>
+                  <div className="stock-info">
+                    <div className={`stock-status ${getStockStatusClass(product.inventoryStatus)}`}>
+                      {product.inventoryStatus}
+                    </div>
+                    <div className="stock-count">
+                      {product.stockAvailable} pieces available
+                    </div>
+                  </div>
                 </div>
                 
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
                   <div className="product-pricing">
-                    <span className="current-price">{formatPrice(product.price)}</span>
-                    {product.originalPrice > product.price && (
-                      <span className="original-price">{formatPrice(product.originalPrice)}</span>
-                    )}
+                    <span className="wholesale-price">{formatPrice(product.price)} per piece</span>
+                    <span className="original-price">{formatPrice(product.originalPrice)} per piece</span>
+                  </div>
+                  <div className="wholesale-info">
+                    <span className="minimum-sets">Min. {product.minimumSets} sets</span>
+                    <span className="wholesale-discount">Wholesale {product.wholesaleDiscount}% off</span>
                   </div>
                   <div className="product-colors">
                     {product.colors.slice(0, 3).map((color, index) => (
@@ -236,7 +251,7 @@ export const MenView: React.FC = () => {
               </div>
             ))}
           </div>
-          
+
           {/* View More Button */}
           {hasMoreProducts && (
             <div className="view-more-container">

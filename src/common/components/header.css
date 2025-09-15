@@ -101,6 +101,27 @@
   opacity: 0.8;
 }
 
+.favorite-item {
+  position: relative;
+}
+
+.favorite-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
 .header-icon {
   font-size: 1.2rem;
 }

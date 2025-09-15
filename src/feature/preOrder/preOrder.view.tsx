@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../common/components/header';
 import { Footer } from '../../common/components/footer';
-import menProducts from '../../data/menProducts.json';
-import { useFavorites } from '../../context/FavoritesContext';
-import './men.css';
+import preOrderProducts from '../../data/preOrderProducts.json';
+import './preOrder.css';
 
-interface Product {
+interface PreOrderProduct {
   id: number;
   name: string;
   price: number;
@@ -16,19 +15,21 @@ interface Product {
   colors: string[];
   sizes: string[];
   description: string;
+  launchDate: string;
   isNew: boolean;
   isBestSeller: boolean;
+  minimumSets: number;
+  wholesaleDiscount: number;
 }
 
-export const MenView: React.FC = () => {
+export const PreOrderView: React.FC = () => {
   const navigate = useNavigate();
-  const { isFavorite, toggleFavorite } = useFavorites();
-  const [products, setProducts] = useState<Product[]>(menProducts.products);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(menProducts.products);
-  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<PreOrderProduct[]>(preOrderProducts.products);
+  const [filteredProducts, setFilteredProducts] = useState<PreOrderProduct[]>(preOrderProducts.products);
+  const [displayedProducts, setDisplayedProducts] = useState<PreOrderProduct[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [sortBy, setSortBy] = useState('featured');
+  const [sortBy, setSortBy] = useState('launch-date');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6);
 
@@ -37,16 +38,14 @@ export const MenView: React.FC = () => {
     { value: 'shirts', label: 'Shirts' },
     { value: 'tshirts', label: 'T-Shirts' },
     { value: 'pants', label: 'Pants' },
-    { value: 'jeans', label: 'Jeans' },
-    { value: 'shoes', label: 'Shoes' }
+    { value: 'jeans', label: 'Jeans' }
   ];
 
   const sortOptions = [
-    { value: 'featured', label: 'Featured' },
+    { value: 'launch-date', label: 'Launch Date' },
     { value: 'price-low', label: 'Price: Low to High' },
     { value: 'price-high', label: 'Price: High to Low' },
-    { value: 'newest', label: 'Newest First' },
-    { value: 'bestseller', label: 'Best Sellers' }
+    { value: 'discount', label: 'Best Discount' }
   ];
 
   useEffect(() => {
@@ -73,14 +72,12 @@ export const MenView: React.FC = () => {
       case 'price-high':
         filtered.sort((a, b) => b.price - a.price);
         break;
-      case 'newest':
-        filtered.sort((a, b) => b.id - a.id);
-        break;
-      case 'bestseller':
-        filtered.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
+      case 'discount':
+        filtered.sort((a, b) => b.wholesaleDiscount - a.wholesaleDiscount);
         break;
       default:
-        // Featured - keep original order
+        // Launch date - sort by date
+        filtered.sort((a, b) => new Date(a.launchDate).getTime() - new Date(b.launchDate).getTime());
         break;
     }
 
@@ -104,6 +101,23 @@ export const MenView: React.FC = () => {
     }).format(price);
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const getDaysUntilLaunch = (dateString: string) => {
+    const today = new Date();
+    const launchDate = new Date(dateString);
+    const diffTime = launchDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
   const handleViewMore = () => {
     setCurrentPage(prev => prev + 1);
   };
@@ -111,23 +125,18 @@ export const MenView: React.FC = () => {
   const hasMoreProducts = displayedProducts.length < filteredProducts.length;
 
   const handleProductClick = (productId: number) => {
-    navigate(`/men/product/${productId}`);
-  };
-
-  const handleWishlistClick = (e: React.MouseEvent, product: Product) => {
-    e.stopPropagation();
-    toggleFavorite(product);
+    navigate(`/pre-order/product/${productId}`);
   };
 
   return (
-    <div className="men-view">
+    <div className="pre-order-view">
       <Header />
       
       {/* Page Header */}
       <section className="page-header">
         <div className="container">
-          <h1 className="page-title">Men's Collection</h1>
-          <p className="page-subtitle">Discover our latest men's fashion</p>
+          <h1 className="page-title">Pre-Order Collection</h1>
+          <p className="page-subtitle">Wholesale products launching soon - Book your inventory now!</p>
         </div>
       </section>
 
@@ -139,7 +148,7 @@ export const MenView: React.FC = () => {
             <div className="search-container">
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search pre-order products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
@@ -186,57 +195,70 @@ export const MenView: React.FC = () => {
         <div className="container">
           <div className="products-header">
             <p className="products-count">
-              {filteredProducts.length} products found
+              {filteredProducts.length} pre-order products available
             </p>
           </div>
           
           <div className="products-grid">
-            {displayedProducts.map((product) => (
-              <div key={product.id} className="product-card" onClick={() => handleProductClick(product.id)}>
-                <div className="product-image-container">
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="product-image"
-                  />
-                  <div className="product-badges">
-                    {product.isNew && <span className="badge new">New</span>}
-                    {product.isBestSeller && <span className="badge bestseller">Best Seller</span>}
+            {displayedProducts.map((product) => {
+              const daysUntilLaunch = getDaysUntilLaunch(product.launchDate);
+              return (
+                <div key={product.id} className="product-card" onClick={() => handleProductClick(product.id)}>
+                  <div className="product-image-container">
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="product-image"
+                    />
+                    <div className="product-badges">
+                      {product.isNew && <span className="badge new">New</span>}
+                      {product.isBestSeller && <span className="badge bestseller">Best Seller</span>}
+                      <span className="badge discount">{product.wholesaleDiscount}% OFF</span>
+                    </div>
+                    <div className="launch-info">
+                      <div className="launch-date">
+                        <span className="launch-label">Launch:</span>
+                        <span className="launch-value">{formatDate(product.launchDate)}</span>
+                      </div>
+                      <div className="days-until">
+                        {daysUntilLaunch > 0 ? (
+                          <span className="days-count">{daysUntilLaunch} days left</span>
+                        ) : (
+                          <span className="days-count launching">Launching Soon!</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  <button 
-                    className={`wishlist-btn ${isFavorite(product.id) ? 'favorited' : ''}`}
-                    onClick={(e) => handleWishlistClick(e, product)}
-                  >
-                    {isFavorite(product.id) ? '❤️' : '♡'}
-                  </button>
-                </div>
-                
-                <div className="product-info">
-                  <h3 className="product-name">{product.name}</h3>
-                  <div className="product-pricing">
-                    <span className="current-price">{formatPrice(product.price)}</span>
-                    {product.originalPrice > product.price && (
+                  
+                  <div className="product-info">
+                    <h3 className="product-name">{product.name}</h3>
+                    <div className="product-pricing">
+                      <span className="wholesale-price">{formatPrice(product.price)}</span>
                       <span className="original-price">{formatPrice(product.originalPrice)}</span>
-                    )}
-                  </div>
-                  <div className="product-colors">
-                    {product.colors.slice(0, 3).map((color, index) => (
-                      <div 
-                        key={index} 
-                        className="color-dot" 
-                        style={{ backgroundColor: color }}
-                        title={color}
-                      />
-                    ))}
-                    {product.colors.length > 3 && (
-                      <span className="more-colors">+{product.colors.length - 3}</span>
-                    )}
+                    </div>
+                    <div className="wholesale-info">
+                      <span className="minimum-sets">Min. {product.minimumSets} sets</span>
+                      <span className="wholesale-discount">Wholesale {product.wholesaleDiscount}% off</span>
+                    </div>
+                    <div className="product-colors">
+                      {product.colors.slice(0, 3).map((color, index) => (
+                        <div 
+                          key={index} 
+                          className="color-dot" 
+                          style={{ backgroundColor: color }}
+                          title={color}
+                        />
+                      ))}
+                      {product.colors.length > 3 && (
+                        <span className="more-colors">+{product.colors.length - 3}</span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
-          
+
           {/* View More Button */}
           {hasMoreProducts && (
             <div className="view-more-container">

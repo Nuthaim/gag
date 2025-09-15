@@ -1,13 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from '../../common/components/header';
 import { Footer } from '../../common/components/footer';
 import bannerImage from '../../assets/banner.webp';
 import './home.css';
 
 export const HomeView: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="home-view">
       <Header />
+      
+      {/* Pre-Order Button Above Banner */}
+   
       
       {/* Hero Banner Section */}
       <section className="hero-section">
@@ -20,11 +26,18 @@ export const HomeView: React.FC = () => {
           <div className="hero-overlay">
             <div className="hero-content">
               <h1 className="hero-title">GAG Travels With Grace</h1>
-              <a href="#" className="hero-link">Pre-order Now</a>
+              <button 
+                className="hero-link"
+                onClick={() => navigate('/pre-order')}
+              >
+                Pre-order Now for wholsale Inventory
+              </button>
             </div>
           </div>
         </div>
       </section>
+
+      
 
       {/* Navigation Section */}
       <section className="nav-section">
@@ -32,6 +45,8 @@ export const HomeView: React.FC = () => {
             <nav className="home-nav">
               <a href="#" className="home-nav-link">New Arrivals</a>
               <a href="/men" className="home-nav-link">Men</a>
+              <a href="/wholesale" className="home-nav-link">Wholsale Inventory</a>
+
               <a href="#" className="home-nav-link">Art of Living</a>
               <a href="#" className="home-nav-link">World of GAG</a>
             </nav>

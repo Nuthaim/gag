@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import './header.css';
 import hamburg from '../../assets/hamburg.svg';
 import search from '../../assets/Search.svg';
-import favorite from '../../assets/Favorite.svg';
 import User from '../../assets/User.svg';
 import { ContactSidebar } from './contactSidebar';
 import { ProfileSidebar } from './profileSidebar';
-import { useFavorites } from '../../context/FavoritesContext';
 import { useUser } from '../../context/UserContext';
 
 export const Header: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const { favorites } = useFavorites();
+  const [cartItems] = useState(0); // TODO: Replace with actual cart context
   const { user } = useUser();
 
   // Check if current page should have always visible header
@@ -43,8 +40,9 @@ export const Header: React.FC = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const handleFavoritesClick = () => {
-    navigate('/favorites');
+  const handleCartClick = () => {
+    // TODO: Navigate to cart page when implemented
+    console.log('Cart clicked');
   };
 
   const toggleContact = () => {
@@ -108,10 +106,15 @@ export const Header: React.FC = () => {
           {/* <div className="header-item">
             <a href="/wholesale" className="nav-link">Wholesale</a>
           </div> */}
-          <div className="header-item favorite-item" onClick={handleFavoritesClick}>
-            <img src={favorite} alt="Favorite" className="header-svg-icon" />
-            {favorites.length > 0 && (
-              <span className="favorite-indicator">●</span>
+          <div className="header-item cart-item" onClick={handleCartClick}>
+            <svg className="header-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="m1 1 4 4 13 0 4-4"></path>
+              <path d="M5 5h14l-1 9H6L5 5z"></path>
+            </svg>
+            {cartItems > 0 && (
+              <span className="cart-indicator">{cartItems}</span>
             )}
           </div>
           <div className="header-item" onClick={toggleProfile}>

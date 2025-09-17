@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Header } from '../../common/components/header';
 import { Footer } from '../../common/components/footer';
 import menProducts from '../../data/menProducts.json';
-import { useFavorites } from '../../context/FavoritesContext';
 import './men.css';
 
 interface Product {
@@ -22,7 +21,6 @@ interface Product {
 
 export const MenView: React.FC = () => {
   const navigate = useNavigate();
-  const { isFavorite, toggleFavorite } = useFavorites();
   const [products, setProducts] = useState<Product[]>(menProducts.products);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(menProducts.products);
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
@@ -114,10 +112,6 @@ export const MenView: React.FC = () => {
     navigate(`/men/product/${productId}`);
   };
 
-  const handleWishlistClick = (e: React.MouseEvent, product: Product) => {
-    e.stopPropagation();
-    toggleFavorite(product);
-  };
 
   return (
     <div className="men-view">
@@ -203,12 +197,6 @@ export const MenView: React.FC = () => {
                     {product.isNew && <span className="badge new">New</span>}
                     {product.isBestSeller && <span className="badge bestseller">Best Seller</span>}
                   </div>
-                  <button 
-                    className={`wishlist-btn ${isFavorite(product.id) ? 'favorited' : ''}`}
-                    onClick={(e) => handleWishlistClick(e, product)}
-                  >
-                    {isFavorite(product.id) ? '❤️' : '♡'}
-                  </button>
                 </div>
                 
                 <div className="product-info">

@@ -65,7 +65,7 @@ export const HomeView: React.FC = () => {
                   <a href="#" className="collection-link">Explore Collection</a>
                 </div>
               </div>
-              <h3 className="collection-title">Spring Essentials</h3>
+              <h3 className="collection-title">Spring Collection</h3>
               <p className="collection-description">Discover our latest spring collection</p>
             </div>
             <div className="collection-item">
@@ -75,7 +75,7 @@ export const HomeView: React.FC = () => {
                   <a href="#" className="collection-link">Explore Collection</a>
                 </div>
               </div>
-              <h3 className="collection-title">Luxury Collection</h3>
+              <h3 className="collection-title">Linen Collection</h3>
               <p className="collection-description">Premium accessories for every occasion</p>
             </div>
             <div className="collection-item">

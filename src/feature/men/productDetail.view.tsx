@@ -3,8 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Header } from '../../common/components/header';
 import { Footer } from '../../common/components/footer';
 import menProducts from '../../data/menProducts.json';
-import favoriteIcon from '../../assets/Favorite.svg';
-import { useFavorites } from '../../context/FavoritesContext';
 import './productDetail.css';
 
 interface Product {
@@ -24,7 +22,6 @@ interface Product {
 export const ProductDetailView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { isFavorite, toggleFavorite } = useFavorites();
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [selectedSize, setSelectedSize] = useState<string>('');
@@ -61,11 +58,6 @@ export const ProductDetailView: React.FC = () => {
     setSelectedSize(size);
   };
 
-  const handleFavoriteToggle = () => {
-    if (product) {
-      toggleFavorite(product);
-    }
-  };
 
   const handleQuantityChange = (change: number) => {
     const newQuantity = quantity + change;
@@ -209,18 +201,6 @@ export const ProductDetailView: React.FC = () => {
 
             {/* Action Buttons */}
             <div className="action-buttons">
-              <button 
-                className={`favorite-btn ${product && isFavorite(product.id) ? 'favorited' : ''}`}
-                onClick={handleFavoriteToggle}
-              >
-                <img 
-                  src={favoriteIcon} 
-                  alt="Favorite" 
-                  className={`favorite-icon ${product && isFavorite(product.id) ? 'favorited' : ''}`}
-                />
-                {product && isFavorite(product.id) ? 'Added to Favorites' : 'Add to Favorites'}
-              </button>
-              
               <button className="add-to-cart-btn" onClick={handleAddToCart}>
                 Add to Cart
               </button>

@@ -116,3 +116,4 @@ export const FavoritesList: React.FC<FavoritesListProps> = ({ isOpen, onClose })
     </div>
   );
 };
+

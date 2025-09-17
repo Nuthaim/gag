@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './header.css';
 import hamburg from '../../assets/hamburg.svg';
 import search from '../../assets/Search.svg';
 import favorite from '../../assets/Favorite.svg';
-import user from '../../assets/User.svg';
-import { FavoritesList } from './favoritesList';
+import User from '../../assets/User.svg';
+import { ContactSidebar } from './contactSidebar';
+import { ProfileSidebar } from './profileSidebar';
 import { useFavorites } from '../../context/FavoritesContext';
+import { useUser } from '../../context/UserContext';
 
 export const Header: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { favorites } = useFavorites();
+  const { user } = useUser();
 
   // Check if current page should have always visible header
   const isHomePage = location.pathname === '/' || location.pathname === '/home';
@@ -38,12 +43,24 @@ export const Header: React.FC = () => {
     setIsMobileMenuOpen(false);
   };
 
-  const toggleFavorites = () => {
-    setIsFavoritesOpen(!isFavoritesOpen);
+  const handleFavoritesClick = () => {
+    navigate('/favorites');
   };
 
-  const closeFavorites = () => {
-    setIsFavoritesOpen(false);
+  const toggleContact = () => {
+    setIsContactOpen(!isContactOpen);
+  };
+
+  const closeContact = () => {
+    setIsContactOpen(false);
+  };
+
+  const toggleProfile = () => {
+    setIsProfileOpen(!isProfileOpen);
+  };
+
+  const closeProfile = () => {
+    setIsProfileOpen(false);
   };
 
   const headerClass = `header ${shouldShowHeader ? 'header-scrolled' : ''}`;
@@ -85,20 +102,21 @@ export const Header: React.FC = () => {
 
         {/* Right side */}
         <div className="header-right">
-          <div className="header-item">
+          <div className="header-item" onClick={toggleContact}>
             <span>Call Us</span>
           </div>
           {/* <div className="header-item">
             <a href="/wholesale" className="nav-link">Wholesale</a>
           </div> */}
-          <div className="header-item favorite-item" onClick={toggleFavorites}>
+          <div className="header-item favorite-item" onClick={handleFavoritesClick}>
             <img src={favorite} alt="Favorite" className="header-svg-icon" />
             {favorites.length > 0 && (
-              <span className="favorite-count">{favorites.length}</span>
+              <span className="favorite-indicator">●</span>
             )}
           </div>
-          <div className="header-item">
-            <img src={user} alt="User" className="header-svg-icon" />
+          <div className="header-item" onClick={toggleProfile}>
+            <img src={ User} alt="User" className="header-svg-icon" />
+            {user && <span className="user-indicator">●</span>}
           </div>
         </div>
       </div>
@@ -117,12 +135,18 @@ export const Header: React.FC = () => {
               <a href="#" className="mobile-nav-link" onClick={closeMobileMenu}>New Arrivals</a>
               <a href="/men" className="mobile-nav-link" onClick={closeMobileMenu}>Men</a>
               <a href="/wholesale" className="mobile-nav-link" onClick={closeMobileMenu}>Wholsale Inventory</a>
-              <a href="#" className="mobile-nav-link" onClick={closeMobileMenu}>Art of Living</a>
-              <a href="#" className="mobile-nav-link" onClick={closeMobileMenu}>World of GAG</a>
+              {/* <a href="#" className="mobile-nav-link" onClick={closeMobileMenu}>Art of Living</a> */}
+              <a href="/world-of-gag" className="mobile-nav-link" onClick={closeMobileMenu}>World of GAG</a>
             </nav>
           </div>
         </div>
       )}
+
+      {/* Contact Sidebar */}
+      <ContactSidebar isOpen={isContactOpen} onClose={closeContact} />
+
+      {/* Profile Sidebar */}
+      <ProfileSidebar isOpen={isProfileOpen} onClose={closeProfile} />
     </header>
   );
 };

@@ -105,21 +105,22 @@
   position: relative;
 }
 
-.favorite-count {
+.favorite-indicator {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #e74c3c;
-  color: white;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  font-size: 10px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
+  top: -2px;
+  right: -2px;
+  color: #e74c3c;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.user-indicator {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  color: #28a745;
+  font-size: 0.8rem;
+  font-weight: bold;
 }
 
 .header-icon {

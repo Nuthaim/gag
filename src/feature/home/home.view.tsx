@@ -30,7 +30,7 @@ export const HomeView: React.FC = () => {
                 className="hero-link"
                 onClick={() => navigate('/pre-order')}
               >
-                Pre-order Now for wholsale Inventory
+                Pre-order Now for Wholesale Inventory
               </button>
             </div>
           </div>
@@ -43,12 +43,12 @@ export const HomeView: React.FC = () => {
       <section className="nav-section">
         <div className="container">
             <nav className="home-nav">
-              <a href="#" className="home-nav-link">New Arrivals</a>
+              <a href="/new-arrivals" className="home-nav-link">New Arrivals</a>
               <a href="/men" className="home-nav-link">Men</a>
-              <a href="/wholesale" className="home-nav-link">Wholsale Inventory</a>
+              <a href="/wholesale" className="home-nav-link">Wholesale Inventory</a>
 
-              <a href="#" className="home-nav-link">Art of Living</a>
-              <a href="#" className="home-nav-link">World of GAG</a>
+              {/* <a href="#" className="home-nav-link">Art of Living</a> */}
+              <a href="/world-of-gag" className="home-nav-link">World of GAG</a>
             </nav>
         </div>
       </section>
